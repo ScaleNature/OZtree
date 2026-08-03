@@ -46,6 +46,8 @@ function setup(
   default_viz_settings) {
   // Set the server-specific URLs for API calls
   api_manager.set_urls(server_urls);
+  // Seed the shared config from the host-provided string bundle.
+  config.OZstrings = (typeof window !== 'undefined' && window.OZstrings) || null;
   // Set the URL for images
   config.pic.data_path_pics = server_urls.data_path_pics;
   // Set the base prefix for the <title> attribute

@@ -80,6 +80,8 @@ config.lang = ''; //two letter language code. If empty, try to use the browser d
 
 config.custom_querystring_params = []; // If a project requires extra querystring params, set them here so they are preserved when URLs are modified
 
+config.OZstrings = null;
+
 config.ui = {
   /* These are functions where the OneZoom javascript code needs to interact
      with the user interface (e.g. to pop up a window when a link in the
@@ -155,6 +157,5 @@ config.pic = {
 /** @property {boolean} disable_record_url - Don't update the page URL as the tree moves
  */
 config.disable_record_url = false;
-
 
 export default config;

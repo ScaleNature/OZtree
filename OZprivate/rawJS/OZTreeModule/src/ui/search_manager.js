@@ -44,14 +44,14 @@ class SearchManager {
     clearTimeout(this.search_timer);
     let originalSearch = toSearchFor; // we want to return the original search string back to the UI.
     // detect if the search string has something in relating to sponsorship and catch that after running the text through the translation services.
-    if (toSearchFor.toLowerCase().indexOf(OZstrings["Sponsored for"].toLowerCase()) === 0) {
-        this.searchForSponsor(toSearchFor.substr(OZstrings["Sponsored for"].length), callback, "for");
-    } else if (toSearchFor.toLowerCase().indexOf(OZstrings["Sponsored by"].toLowerCase()) === 0) {
-        this.searchForSponsor(toSearchFor.substr(OZstrings["Sponsored by"].length), callback, "by");
-    } else if (toSearchFor.toLowerCase().indexOf(OZstrings["Sponsored"].toLowerCase()) === 0) {
-        this.searchForSponsor(toSearchFor.substr(OZstrings["Sponsored"].length), callback, "all");
-    } else if (toSearchFor.toLowerCase().indexOf(OZstrings["Sponsor"].toLowerCase()) === 0) {
-        this.searchForSponsor(toSearchFor.substr(OZstrings["Sponsor"].length), callback, "all");
+    if (toSearchFor.toLowerCase().indexOf(config.OZstrings["Sponsored for"].toLowerCase()) === 0) {
+        this.searchForSponsor(toSearchFor.substr(config.OZstrings["Sponsored for"].length), callback, "for");
+    } else if (toSearchFor.toLowerCase().indexOf(config.OZstrings["Sponsored by"].toLowerCase()) === 0) {
+        this.searchForSponsor(toSearchFor.substr(config.OZstrings["Sponsored by"].length), callback, "by");
+    } else if (toSearchFor.toLowerCase().indexOf(config.OZstrings["Sponsored"].toLowerCase()) === 0) {
+        this.searchForSponsor(toSearchFor.substr(config.OZstrings["Sponsored"].length), callback, "all");
+    } else if (toSearchFor.toLowerCase().indexOf(config.OZstrings["Sponsor"].toLowerCase()) === 0) {
+        this.searchForSponsor(toSearchFor.substr(config.OZstrings["Sponsor"].length), callback, "all");
     } else {
         // otherwise do normal search on the search hit, this should return the full set of results including sponsors
         let self = this;
@@ -245,7 +245,7 @@ class SearchManager {
                   let row = [tidy_common, latinName && !latinName.startsWith("_") ? latinName : null, id, searchScore];
                   let additional_info = {info_type: "Sponsorship Info", text: null};
                   let prefix = "";
-                  if (record[4] && record[4] !== "null") prefix = OZstrings["Sponsored " + record[4]] + " ";
+                  if (record[4] && record[4] !== "null") prefix = config.OZstrings["Sponsored " + record[4]] + " ";
                   if (record[2] && record[3]) {
                       additional_info.text = prefix + record[2] + "</br>" + capitalizeFirstLetter(record[3]);
                       row.push(additional_info);
@@ -307,7 +307,7 @@ class SearchManager {
     } else {
         //the second item retuend by the score function is a index into the extra_vernaculars
         //array, if the match was only to an extra vernacular
-        let extra = OZstrings["Also called:"] + " " + extra_vernaculars[score_result[1]]
+        let extra = config.OZstrings["Also called:"] + " " + extra_vernaculars[score_result[1]]
         row = row.concat([score_result[0], {info_type: "Extra Vernacular", text: extra}])
     }
     row.pinpoint = node_to_pinpoint({ ott: ott, latin_name: latinName, ozid });

@@ -8,7 +8,7 @@ export function spec_num_full(node) {
     if (node.richness_val >= 1000000) {
         speciestext1 = speciestext1.substring(0, speciestext1.length-7) + "," + speciestext1.substring(speciestext1.length-7, speciestext1.length);
     }
-    return speciestext1 + " " + ((node.richness_val > 1) ? OZstrings['spp'] : OZstrings['sp']);
+    return speciestext1 + " " + ((node.richness_val > 1) ? config.OZstrings['spp'] : config.OZstrings['sp']);
 }
 
 
@@ -23,7 +23,7 @@ export function number_convert(numIn) {
         speciestext1 = speciestext1.substring(0, speciestext1.length-7) + "," + speciestext1.substring(speciestext1.length-7, speciestext1.length);
     }
     
-    return speciestext1 + " " + ((numIn > 1)?OZstrings['spp'] : OZstrings['sp']);
+    return speciestext1 + " " + ((numIn > 1)?config.OZstrings['spp'] : config.OZstrings['sp']);
 }
 
 export function view_richness(node) {
@@ -36,21 +36,21 @@ export function is_primary_or_secondary_name(node) {
 }
 
 export function gpmapper(datein, full) {
-  for (let i=0; i<OZstrings["geological"]["periods"].length; i++) {
-    if (datein < OZstrings["geological"]["periods"][i]['Ma']) {
+  for (let i=0; i<config.OZstrings["geological"]["periods"].length; i++) {
+    if (datein < config.OZstrings["geological"]["periods"][i]['Ma']) {
       if (full) {
-        return OZstrings["geological"]["periods"][i]["long"];
+        return config.OZstrings["geological"]["periods"][i]["long"];
       } else {
-        return OZstrings["geological"]["periods"][i]["name"];
+        return config.OZstrings["geological"]["periods"][i]["name"];
       }
     }
   }
-  for (let i=0; i<OZstrings["geological"]["eons"].length; i++) {
-    if (datein < OZstrings["geological"]["eons"][i]['Ma']) {
+  for (let i=0; i<config.OZstrings["geological"]["eons"].length; i++) {
+    if (datein < config.OZstrings["geological"]["eons"][i]['Ma']) {
       if (full) {
-        return OZstrings["geological"]["eons"][i]["long"];
+        return config.OZstrings["geological"]["eons"][i]["long"];
       } else {
-        return OZstrings["geological"]["eons"][i]["name"];
+        return config.OZstrings["geological"]["eons"][i]["name"];
       }
     }
   }
@@ -61,12 +61,12 @@ export function gpmapper(datein, full) {
 export function ageAsText(Ma) {
   //return e.g. 100 thousand years ago
   if (Ma >10) {
-    return OZstrings['Mya'].replace(/\{(\w+)\}/g, function (m, c) {return({'mya':(Math.round(Ma*10)/10.0).toString()}[c])});
+    return config.OZstrings['Mya'].replace(/\{(\w+)\}/g, function (m, c) {return({'mya':(Math.round(Ma*10)/10.0).toString()}[c])});
   } else {
     if (Ma >1) {
-      return OZstrings['Mya'].replace(/\{(\w+)\}/g, function (m, c) {return({'mya':(Math.round(Ma*100)/100.0).toString()}[c])});
+      return config.OZstrings['Mya'].replace(/\{(\w+)\}/g, function (m, c) {return({'mya':(Math.round(Ma*100)/100.0).toString()}[c])});
     } else {
-      return OZstrings['tya'].replace(/\{(\w+)\}/g, function (m, c) {return({'tya':(Math.round(Ma*10000)/10.0).toString()}[c])});
+      return config.OZstrings['tya'].replace(/\{(\w+)\}/g, function (m, c) {return({'tya':(Math.round(Ma*10000)/10.0).toString()}[c])});
     }
   }
 }
@@ -92,17 +92,17 @@ export function extxt(node) {
   if (node.redlist) {
     return conconvert(node.redlist);
   } else {
-    return OZstrings['IUCN'][''];
+    return config.OZstrings['IUCN'][''];
   }
 }
 
 
 function conconvert(casein)
 {
-    if (OZstrings['IUCN'].hasOwnProperty(casein)) {
-        return(OZstrings['IUCN'][casein])
+    if (config.OZstrings['IUCN'].hasOwnProperty(casein)) {
+        return(config.OZstrings['IUCN'][casein])
     } else {
-        return(OZstrings['IUCN'][''])        
+        return(config.OZstrings['IUCN'][''])        
     }
 }
 

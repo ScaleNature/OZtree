@@ -387,7 +387,7 @@ class NodeLayoutBase {
       text_shape.y = node.yvar + node.rvar * node.arcy + (node.cname ? this.theight2 * 1.3 : 0);
       text_shape.width = this.twidth * (node.cname ? 1.3 : 1.5);
       text_shape.defpt = this.theight2 / (node.cname ? 4.0 : 2.0);
-      text_shape.text = (node.cname? OZstrings['sciname'] : "") + node.latin_name;
+      text_shape.text = (node.cname? config.OZstrings['sciname'] : "") + node.latin_name;
       shapes.push(text_shape);
     }
     let text_shape = TextShape.create();
@@ -421,7 +421,7 @@ class NodeLayoutBase {
       text_shape.y = node.yvar + node.rvar * node.arcy + (node.cname ? this.theight2 * 1.5 : -this.theight2 * 1.15);
       text_shape.width = this.twidth * (node.cname ? 1.25: 1.37);
       text_shape.defpt = this.theight2 / (node.cname ? 5: 2.5);
-      text_shape.text = (node.cname? OZstrings['sciname'] : "") + node.latin_name;
+      text_shape.text = (node.cname? config.OZstrings['sciname'] : "") + node.latin_name;
       shapes.push(text_shape);
     }
     let text_shape = TextShape.create();
@@ -619,7 +619,7 @@ class NodeLayoutBase {
   }
 
   get_textonly_header(node) {
-    let ntxt = OZstrings['node_labels']['text_only']
+    let ntxt = config.OZstrings['node_labels']['text_only']
     let textonly_header;
     if (node.lengthbr && node.lengthbr>0) {
       let vars = {'date_with_units':ageAsText(node.lengthbr), 'geo_time':gpmapper(node.lengthbr, true)};
@@ -639,7 +639,7 @@ class NodeLayoutBase {
   }
 
   get_pic_header_text(node) {
-    let ntxt = OZstrings['node_labels']['with_pic']
+    let ntxt = config.OZstrings['node_labels']['with_pic']
     let pic_header_text;
     //NB - these are in reverse order, as we often don't use the top two lines
     if (node.lengthbr && (node.lengthbr>0)) {
@@ -661,9 +661,9 @@ class NodeLayoutBase {
 
   get_sponsor_text(node) {
     if (node.cname && node.cname.length > 1 && node.cname.length < 40 && isNaN(node.cname.substring(0, node.cname.length-1))) {
-      return substitute_variables(OZstrings['sponsor_text']['node']['named'],{'group_name':node.cname}).toUpperCase();
+      return substitute_variables(config.OZstrings['sponsor_text']['node']['named'],{'group_name':node.cname}).toUpperCase();
     } else {
-      return OZstrings['sponsor_text']['node']['unnamed'].toUpperCase();
+      return config.OZstrings['sponsor_text']['node']['unnamed'].toUpperCase();
     }  
   }
 

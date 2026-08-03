@@ -12,6 +12,7 @@
  ******************************************************/
 
 import {default as natural_theme} from '../themes/natural_theme.js';
+import config from '../global_config';
 
 /* Allow colours etc to vary depending on node properties
  * if func_or_string is a function it is called with param `node`
@@ -1219,7 +1220,7 @@ function ghostLeaf(
                             //autotext(false,null,fonttype, mintextsize, "•"+ latinText+ "•",x,y+r*0.5,r*1,r*0.1,leafContext,3);
                             autotext(
                                 doStroke, null, fonttype, mintextsize,
-                                OZstrings["sciname"]+ latinText,
+                                config.OZstrings["sciname"]+ latinText,
                                 x, y+r*0.5, r*1, r*0.1, leafContext, 3);
                         }
                         autotext2(
@@ -1235,7 +1236,7 @@ function ghostLeaf(
                     {
                         autotext(
                             doStroke, null, fonttype, mintextsize,
-                            OZstrings['No common name'],
+                            config.OZstrings['No common name'],
                             x, y+r*0.5, r*1, r*0.1, leafContext, 3);
                         autotext2(
                             doStroke, null, fonttype, mintextsize,
@@ -1250,7 +1251,7 @@ function ghostLeaf(
                     {
                         autotext(
                             doStroke, null, fonttype, mintextsize,
-                            OZstrings['No known name'],
+                            config.OZstrings['No known name'],
                             x, y-r*0.55, r*1, r*0.1, leafContext, 3);
                         autotext2(
                             doStroke, null, fonttype, mintextsize,
@@ -1324,7 +1325,7 @@ function ghostLeaf(
                         //autotext(false,null,fonttype, mintextsize,"•"+latinText+"•",x,y-r*0.45,r*1,r*0.15,leafContext,3);
                         autotext(
                             doStroke, null, fonttype, mintextsize,
-                            OZstrings['sciname']+latinText,
+                            config.OZstrings['sciname']+latinText,
                             x, y-r*0.45, r*1, r*0.12, leafContext, 3);
                     }
                     autotext2(
@@ -1338,7 +1339,7 @@ function ghostLeaf(
                 {
                     autotext(
                         doStroke, null, fonttype, mintextsize,
-                        OZstrings['No common name'], x, y-r*0.45, r*1, r*0.12, leafContext, 3);
+                        config.OZstrings['No common name'], x, y-r*0.45, r*1, r*0.12, leafContext, 3);
                     autotext2(
                         doStroke, null, fonttype, mintextsize,
                         latinText, x, y, r*1.35, r*0.25, leafContext,3);
@@ -1350,7 +1351,7 @@ function ghostLeaf(
                 {
                     autotext(
                         doStroke, null, fonttype, mintextsize,
-                        OZstrings['No known name'], x, y-r*0.4, r*1, r*0.12, leafContext, 3);
+                        config.OZstrings['No known name'], x, y-r*0.4, r*1, r*0.12, leafContext, 3);
                     autotext2(
                         doStroke, null, fonttype, mintextsize,
                         lineText, x, y+r*0.2, r*1.35, r*0.25, leafContext, 3);
@@ -1450,7 +1451,7 @@ function loadingLeaf(leafContext, x, y, r, commonText, latinText, lineText, leaf
                 {
                     autotext(
                         false, null, fonttype, mintextsize,
-                        OZstrings['sciname']+latinText,
+                        config.OZstrings['sciname']+latinText,
                         x, y-r*0.45, r*1, r*0.12, leafContext, 3);
                 }
                 autotext2(
@@ -1464,7 +1465,7 @@ function loadingLeaf(leafContext, x, y, r, commonText, latinText, lineText, leaf
             {
                 autotext(
                     false, null, fonttype, mintextsize,
-                    OZstrings['No common name'],x,y-r*0.45,r*1,r*0.12,leafContext,3);
+                    config.OZstrings['No common name'],x,y-r*0.45,r*1,r*0.12,leafContext,3);
                 autotext2(
                     false, null, fonttype, mintextsize,
                     latinText, x, y, r*1.35, r*0.25, leafContext, 3);
@@ -1476,7 +1477,7 @@ function loadingLeaf(leafContext, x, y, r, commonText, latinText, lineText, leaf
             {
                 autotext(
                     false, null, fonttype, mintextsize,
-                    OZstrings['No known name'], x, y-r*0.4, r*1, r*0.12, leafContext, 3);
+                    config.OZstrings['No known name'], x, y-r*0.4, r*1, r*0.12, leafContext, 3);
                 autotext2(
                     false, null, fonttype, mintextsize,
                     lineText, x, y+r*0.2, r*1.35, r*0.25, leafContext, 3);
@@ -1784,7 +1785,7 @@ function fullLeaf(
                         {
                             autotext(
                                 doStroke, null, fonttype, mintextsize,
-                                OZstrings['No common name'],
+                                config.OZstrings['No common name'],
                                 x, y+r*0.5, r*1, r*0.1, leafContext, 3);
                             autotext2(
                                 doStroke, 'italic', fonttype, mintextsize,
@@ -1820,7 +1821,7 @@ function fullLeaf(
                         {
                             autotext2(
                                 doStroke, null, fonttype, mintextsize,
-                                OZstrings['No common name'],
+                                config.OZstrings['No common name'],
                                 x, y+r*0.63, r*1.1, r*0.12, leafContext, 3);
                             autotext2(
                                 doStroke,'italic', fonttype, mintextsize,
@@ -1913,7 +1914,7 @@ function fullLeaf(
                     {
                         autotext2(
                             doStroke, null, fonttype, mintextsize,
-                            OZstrings['No common name'],
+                            config.OZstrings['No common name'],
                             x, y-r*0.5, r*1.1, r*0.15, leafContext, 3);
                         autotext2(
                             doStroke, 'italic', fonttype, mintextsize,
@@ -1943,7 +1944,7 @@ function fullLeaf(
                     {
                         autotext2(
                             doStroke, null, fonttype, mintextsize,
-                            OZstrings['No common name'],
+                            config.OZstrings['No common name'],
                             x, y-r*0.45, r*1.1, r*0.15, leafContext, 3);
                         autotext3(
                             doStroke, 'italic', fonttype, mintextsize,

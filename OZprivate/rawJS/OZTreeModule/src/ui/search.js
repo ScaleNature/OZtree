@@ -74,7 +74,7 @@ function searchPopulate(searchbox, original_search, search_result) {
                 var result = this;
 
                 if (index === 0) {
-                    $(".search_hits", dropdown).append($('<dt>').text(OZstrings['Tours']));
+                    $(".search_hits", dropdown).append($('<dt>').text(config.OZstrings['Tours']));
                 }
                 $(".search_hits", dropdown).append($('<dd>')
                     .attr("data-href", result.href)
@@ -98,7 +98,7 @@ function searchPopulate(searchbox, original_search, search_result) {
                  // Append header when section type changes
                  if (prev_sponsored === null || prev_sponsored !== is_sponsored(result)) {
                      prev_sponsored = is_sponsored(result);
-                     $(".search_hits", dropdown).append($('<dt></dt>').text(OZstrings[prev_sponsored ? 'SponsorHits' : 'Search results']));
+                     $(".search_hits", dropdown).append($('<dt></dt>').text(config.OZstrings[prev_sponsored ? 'SponsorHits' : 'Search results']));
                  }
 
                  var tempHTML = compile_names(result);
@@ -130,7 +130,7 @@ function setup_location_list(target, locations_json) {
   onezoom.utils.process_taxon_list(locations_json).then(function (taxon_list) {
     target.empty().append(taxon_list.map(function (taxon) {
       if (typeof taxon === "string") {
-        return $('<dt>').text(OZstrings.hasOwnProperty(taxon) ? OZstrings[taxon] : taxon);
+        return $('<dt>').text(config.OZstrings.hasOwnProperty(taxon) ? config.OZstrings[taxon] : taxon);
       }
       return create_location_dd_element(taxon.vernacular, taxon.sciname, '@=' + taxon.ott, taxon.href, taxon.ozid, false);
     }));
@@ -251,7 +251,7 @@ function add_element_to_recents_list(element) {
 function make_clear_recents_button() {
     return $('<button>')
         .addClass('uk-button uk-button-default uk-button-small oz-button-small')
-        .text(OZstrings.hasOwnProperty("Clear recents") ? OZstrings["Clear recents"] : "Clear recents")
+        .text(config.OZstrings.hasOwnProperty("Clear recents") ? config.OZstrings["Clear recents"] : "Clear recents")
         .on('click', clear_recents);
 }
 
@@ -272,7 +272,7 @@ function update_recents_list($target) {
 
     const dl = $('<dl class="recent_places">');
     $target.append(dl);
-    dl.append($('<dt>').text(OZstrings.hasOwnProperty("Recent places") ? OZstrings["Recent places"] : "Recent places"));
+    dl.append($('<dt>').text(config.OZstrings.hasOwnProperty("Recent places") ? config.OZstrings["Recent places"] : "Recent places"));
     dl.append(recent_places.map(function (recent_place) {
         return create_location_dd_element(recent_place.vernacular, recent_place.sciname, recent_place.pinpoint, recent_place.href, undefined, true);
     }));

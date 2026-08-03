@@ -134,11 +134,11 @@ class LeafLayoutBase {
     if (node.sponsor_name) {
       sponsored = 1; // to get rid of sponsor link
       if (node.sponsor_name=="leaf_sponsored") {
-        sponsor_text = OZstrings["leaf_sponsored"]
-        sponsor_extra = OZstrings["leaf_sponsored_extra"]
+        sponsor_text = config.OZstrings["leaf_sponsored"]
+        sponsor_extra = config.OZstrings["leaf_sponsored_extra"]
       } else {
         //There is sponsorship text
-        sponsor_text = node.sponsor_kind ? OZstrings["Sponsored " + node.sponsor_kind] + " "+ node.sponsor_name : node.sponsor_name;
+        sponsor_text = node.sponsor_kind ? config.OZstrings["Sponsored " + node.sponsor_kind] + " "+ node.sponsor_name : node.sponsor_name;
         if (node.sponsor_extra) {
           // only include ',' in sponsorship text when first character is not a (
           let tempSponsorExtra = node.sponsor_extra;
@@ -157,9 +157,9 @@ class LeafLayoutBase {
       // find out if there is an open tree ID and a space in the species name
       if (node.ott && node.ott > 0 && node.latin_name) {
         // I Put some temporary code here to produce sponsorship scenarios for testing.
-        let pseudor = Math.abs(Math.floor(node.arca*111232425)%(OZstrings['sponsor_text']['leaf'].length));
-        sponsor_text  = OZstrings['sponsor_text']['leaf'][pseudor][0];
-        sponsor_extra = OZstrings['sponsor_text']['leaf'][pseudor][1];
+        let pseudor = Math.abs(Math.floor(node.arca*111232425)%(config.OZstrings['sponsor_text']['leaf'].length));
+        sponsor_text  = config.OZstrings['sponsor_text']['leaf'][pseudor][0];
+        sponsor_extra = config.OZstrings['sponsor_text']['leaf'][pseudor][1];
       } else {
         sponsored = 1; // to get rid of sponsor link
         sponsor_extra = "";
@@ -193,7 +193,7 @@ class LeafLayoutBase {
     ||node.redlist === "VU"
     ||node.redlist === "NT"
     ||node.redlist === "LC") {
-      return [OZstrings["Conservation"], OZstrings["IUCN Red List status:"], extxt(node)]
+      return [config.OZstrings["Conservation"], config.OZstrings["IUCN Red List status:"], extxt(node)]
     } else {
       return [];
     }
@@ -564,7 +564,7 @@ class LeafLayoutBase {
             text_shape = TextShape.create();
             this.fill_loading_leaf(text_shape, node, x);
             text_shape.y = y-r*0.45;
-            text_shape.text = OZstrings["sciname"] + latinText;
+            text_shape.text = config.OZstrings["sciname"] + latinText;
             text_shape.width = r;
             text_shape.defpt = r * 0.12;
             text_shape.line = 1;
@@ -593,7 +593,7 @@ class LeafLayoutBase {
           text_shape = TextShape.create();
           this.fill_loading_leaf(text_shape, node, x);
           text_shape.y = y-r*0.45;
-          text_shape.text = OZstrings["No common name"];
+          text_shape.text = config.OZstrings["No common name"];
           text_shape.width = r;
           text_shape.defpt = r * 0.12;
           text_shape.line = 1;
@@ -881,7 +881,7 @@ class LeafLayoutBase {
 
     let text_shape = TextShape.create();
     this.fill_fullleaf_detail3(text_shape, node, r, x);
-    text_shape.text = commonText ? latinText : OZstrings["No common name"];
+    text_shape.text = commonText ? latinText : config.OZstrings["No common name"];
     text_shape.font_style = commonText ? 'italic' : null;
     text_shape.y = y + r * cl1_y_arr[index];
     text_shape.width = r * cl1_width_arr[index];
