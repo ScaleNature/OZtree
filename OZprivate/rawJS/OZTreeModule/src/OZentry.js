@@ -8,7 +8,7 @@ import process_taxon_list from './api/process_taxon_list';
 import { init as garbage_collection_start } from './factory/garbage_collection';
 import { spec_num_full, number_convert, view_richness } from './factory/utils'
 import { add_hook, remove_hook, call_hook } from './util/index';
-import config from './global_config';
+import config, { sync_OZstrings_from_window } from './global_config';
 import tree_state from './tree_state';
 import data_repo from './factory/data_repo';
 import tree_settings from './tree_settings';
@@ -47,7 +47,7 @@ function setup(
   // Set the server-specific URLs for API calls
   api_manager.set_urls(server_urls);
   // Seed the shared config from the host-provided string bundle.
-  config.OZstrings = (typeof window !== 'undefined' && window.OZstrings) || null;
+  sync_OZstrings_from_window();
   // Set the URL for images
   config.pic.data_path_pics = server_urls.data_path_pics;
   // Set the base prefix for the <title> attribute

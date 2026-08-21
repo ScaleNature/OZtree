@@ -82,6 +82,13 @@ config.custom_querystring_params = []; // If a project requires extra querystrin
 
 config.OZstrings = null;
 
+function sync_OZstrings_from_window() {
+  if (typeof window !== 'undefined' && window.OZstrings) {
+    config.OZstrings = window.OZstrings;
+  }
+  return config.OZstrings;
+}
+
 config.ui = {
   /* These are functions where the OneZoom javascript code needs to interact
      with the user interface (e.g. to pop up a window when a link in the
@@ -158,4 +165,5 @@ config.pic = {
  */
 config.disable_record_url = false;
 
+export { sync_OZstrings_from_window };
 export default config;

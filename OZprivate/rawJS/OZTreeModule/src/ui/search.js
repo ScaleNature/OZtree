@@ -1,3 +1,5 @@
+import config from '../global_config';
+
 /* Callback function for when total search is complete.
  * (called with event, OZid, item_name, sci_name)
  */

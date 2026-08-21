@@ -1,4 +1,5 @@
 import tree_state from '../tree_state';
+import config from '../global_config';
 
 export function spec_num_full(node) {
     let speciestext1 = node.richness_val.toString();

@@ -1,7 +1,7 @@
 /**
  * @file Controller functions to update page state on navigation / UI changes
  */
-import config from '../global_config';
+import config, { sync_OZstrings_from_window } from '../global_config';
 import data_repo from '../factory/data_repo';
 import { record_url } from '../navigation/record';
 import { parse_state } from '../navigation/state';
@@ -53,6 +53,7 @@ export default function (Controller) {
     if (lang !== config.lang) {
       try {
         tree_settings.change_language(lang, this, data_repo);
+        sync_OZstrings_from_window();
       } finally {
         if (!init) {
           record_url(this, {

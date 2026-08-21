@@ -2,6 +2,7 @@ import api_manager from '../api/api_manager';
 import node_details_api from '../api/node_details';
 import { node_to_pinpoint } from '../navigation/pinpoint';
 import {capitalizeFirstLetter, max} from '../util/index'; // basic tools
+import config from '../global_config';
 
 /** Class providing functions that send queries to the search API, via the API manager class, and process the returned results. Can be used even if there is no OneZoom canvas */
 class SearchManager {
