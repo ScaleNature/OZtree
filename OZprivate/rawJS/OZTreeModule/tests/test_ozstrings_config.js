@@ -4,6 +4,12 @@
 import test from 'tape';
 import config from '../src/global_config.js';
 
+test('global config exposes OZstrings slot with null default', function (t) {
+  t.ok(Object.prototype.hasOwnProperty.call(config, 'OZstrings'), 'config exposes OZstrings property');
+  t.equal(config.OZstrings, null, 'config.OZstrings defaults to null before host seeding');
+  t.end();
+});
+
 test('config.OZstrings can be seeded directly from the host payload', function (t) {
   const hostStrings = { foo: 'bar' };
 
