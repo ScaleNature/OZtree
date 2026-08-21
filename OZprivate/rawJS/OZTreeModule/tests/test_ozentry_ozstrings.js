@@ -23,14 +23,7 @@ test('OZentry setup seeds config.OZstrings from window payload', function (t) {
 
   // OZentry imports babel-polyfill directly; in the test harness that can throw
   // unless we provide a benign cached module before requiring OZentry.
-  require.cache[polyfillPath] = {
-    id: polyfillPath,
-    filename: polyfillPath,
-    loaded: true,
-    exports: {},
-  };
-  delete require.cache[ozEntryPath];
-  const setup = require('../src/OZentry').default;
+  let setup;
 
   const prevStrings = config.OZstrings;
   const prevDisableRecordUrl = config.disable_record_url;
@@ -44,51 +37,62 @@ test('OZentry setup seeds config.OZstrings from window payload', function (t) {
   const prevSetupCanvas = controller.setup_canvas;
   const prevDrawLoading = controller.draw_loading;
 
-  global.window.OZstrings = { sp: 'species from host' };
+  try {
+    require.cache[polyfillPath] = {
+      id: polyfillPath,
+      filename: polyfillPath,
+      loaded: true,
+      exports: {},
+    };
+    delete require.cache[ozEntryPath];
+    setup = require('../src/OZentry').default;
 
-  api_manager.set_urls = function () {};
-  api_manager.start = function () {};
-  api_manager.fetch_tree_data = function () {
-    // Keep async startup inert in this unit test.
-    return new Promise(function () {});
-  };
-  tree_settings.set_default = function () {};
+    global.window.OZstrings = { sp: 'species from host' };
 
-  controller.setup_canvas = function () {};
-  controller.draw_loading = function () {};
+    api_manager.set_urls = function () {};
+    api_manager.start = function () {};
+    api_manager.fetch_tree_data = function () {
+      // Keep async startup inert in this unit test.
+      return new Promise(function () {});
+    };
+    tree_settings.set_default = function () {};
 
-  const oz = setup(
-    { data_path_pics: '/static/images' },
-    {},
-    null,
-    'oz-canvas',
-    {}
-  );
+    controller.setup_canvas = function () {};
+    controller.draw_loading = function () {};
 
-  t.equal(config.OZstrings && config.OZstrings.sp, 'species from host', 'setup updates shared config from window.OZstrings');
-  t.equal(oz.config.OZstrings && oz.config.OZstrings.sp, 'species from host', 'returned OneZoom object exposes seeded strings');
+    const oz = setup(
+      { data_path_pics: '/static/images' },
+      {},
+      null,
+      'oz-canvas',
+      {}
+    );
 
-  controller.setup_canvas = prevSetupCanvas;
-  controller.draw_loading = prevDrawLoading;
+    t.equal(config.OZstrings && config.OZstrings.sp, 'species from host', 'setup updates shared config from window.OZstrings');
+    t.equal(oz.config.OZstrings && oz.config.OZstrings.sp, 'species from host', 'returned OneZoom object exposes seeded strings');
+  } finally {
+    controller.setup_canvas = prevSetupCanvas;
+    controller.draw_loading = prevDrawLoading;
 
-  api_manager.set_urls = prevSetUrls;
-  api_manager.start = prevStart;
-  api_manager.fetch_tree_data = prevFetchTreeData;
-  tree_settings.set_default = prevSetDefault;
+    api_manager.set_urls = prevSetUrls;
+    api_manager.start = prevStart;
+    api_manager.fetch_tree_data = prevFetchTreeData;
+    tree_settings.set_default = prevSetDefault;
 
-  config.disable_record_url = prevDisableRecordUrl;
-  config.OZstrings = prevStrings;
-  global.window = prevWindow;
-  global.document = prevDocument;
+    config.disable_record_url = prevDisableRecordUrl;
+    config.OZstrings = prevStrings;
+    global.window = prevWindow;
+    global.document = prevDocument;
 
-  if (prevPolyfillModule) {
-    require.cache[polyfillPath] = prevPolyfillModule;
-  } else {
-    delete require.cache[polyfillPath];
+    if (prevPolyfillModule) {
+      require.cache[polyfillPath] = prevPolyfillModule;
+    } else {
+      delete require.cache[polyfillPath];
+    }
+    dom.window.close();
+
+    t.end();
   }
-  dom.window.close();
-
-  t.end();
 });
 
 test.onFinish(function() {

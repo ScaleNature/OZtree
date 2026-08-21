@@ -9,13 +9,11 @@ import { searchPopulate } from '../src/ui/search';
 
 test('searchPopulate renders headings from config.OZstrings', function (t) {
     const prevStrings = config.OZstrings;
-    config.OZstrings = {
-        Tours: 'Tours',
-        'Search results': 'Search results',
-        SponsorHits: 'Sponsor hits',
-    };
-
-    const dom = new JSDOM(`
+  const prevWindow = global.window;
+  const prevDocument = global.document;
+  const prevDollar = global.$;
+  const prevUIkit = global.UIkit;
+  const dom = new JSDOM(`
 <html>
   <body>
     <div id="searchbox">
@@ -30,10 +28,12 @@ test('searchPopulate renders headings from config.OZstrings', function (t) {
   </body>
 </html>`);
 
-    const prevWindow = global.window;
-    const prevDocument = global.document;
-    const prevDollar = global.$;
-    const prevUIkit = global.UIkit;
+  try {
+    config.OZstrings = {
+      Tours: 'Tours',
+      'Search results': 'Search results',
+      SponsorHits: 'Sponsor hits',
+    };
 
     global.window = dom.window;
     global.document = dom.window.document;
@@ -42,9 +42,9 @@ test('searchPopulate renders headings from config.OZstrings', function (t) {
     global.$ = require('../../../../static/js/jquery.js');
     global.window.jQuery = global.$;
     global.UIkit = {
-        dropdown: function () {
-            return { show: function () {} };
-        },
+      dropdown: function () {
+        return { show: function () {} };
+      },
     };
 
     const searchbox = global.$('#searchbox');
@@ -53,23 +53,23 @@ test('searchPopulate renders headings from config.OZstrings', function (t) {
     treeResult.pinpoint = '@Pteropus=448935';
 
     searchPopulate(searchbox, 'bat', {
-        tree: [treeResult],
-        tour: [{ href: '/tour/1', url: '/tour/1', title: 'Bat tour' }],
+      tree: [treeResult],
+      tour: [{ href: '/tour/1', url: '/tour/1', title: 'Bat tour' }],
     });
 
     const headings = global.$('.search_hits dt', searchbox)
-        .map(function () { return global.$(this).text(); })
-        .get();
+      .map(function () { return global.$(this).text(); })
+      .get();
 
     t.ok(headings.indexOf('Tours') > -1, 'Uses localized tours heading');
     t.ok(headings.indexOf('Search results') > -1, 'Uses localized search results heading');
-
+  } finally {
     config.OZstrings = prevStrings;
     global.window = prevWindow;
     global.document = prevDocument;
     global.$ = prevDollar;
     global.UIkit = prevUIkit;
     dom.window.close();
-
     t.end();
+  }
 });

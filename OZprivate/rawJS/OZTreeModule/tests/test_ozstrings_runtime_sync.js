@@ -10,18 +10,20 @@ test('OZui bootstrap seeds config.OZstrings from window.OZstrings', function (t)
   const prevWindow = global.window;
   const prevStrings = config.OZstrings;
 
-  global.window = { OZstrings: { foo: 'bar' } };
-  config.OZstrings = null;
+  try {
+    global.window = { OZstrings: { foo: 'bar' } };
+    config.OZstrings = null;
 
-  delete require.cache[require.resolve('../src/OZui')];
-  require('../src/OZui');
+    delete require.cache[require.resolve('../src/OZui')];
+    require('../src/OZui');
 
-  t.ok(config.OZstrings, 'config.OZstrings gets seeded during OZui bootstrap');
-  t.equal(config.OZstrings && config.OZstrings.foo, 'bar', 'OZui path uses host-provided OZstrings');
-
-  config.OZstrings = prevStrings;
-  global.window = prevWindow;
-  t.end();
+    t.ok(config.OZstrings, 'config.OZstrings gets seeded during OZui bootstrap');
+    t.equal(config.OZstrings && config.OZstrings.foo, 'bar', 'OZui path uses host-provided OZstrings');
+  } finally {
+    config.OZstrings = prevStrings;
+    global.window = prevWindow;
+    t.end();
+  }
 });
 
 test('set_language keeps config.OZstrings synced with window.OZstrings', function (t) {
@@ -34,28 +36,30 @@ test('set_language keeps config.OZstrings synced with window.OZstrings', functio
   const prevLang = config.lang;
   const prevChangeLanguage = tree_settings.change_language;
 
-  global.window = {
-    OZstrings: {
-      'Search results': 'Resultados',
-    },
-  };
-  config.OZstrings = {
-    'Search results': 'Search results',
-  };
+  try {
+    global.window = {
+      OZstrings: {
+        'Search results': 'Resultados',
+      },
+    };
+    config.OZstrings = {
+      'Search results': 'Search results',
+    };
 
-  tree_settings.change_language = function (lang) {
-    config.lang = lang;
-  };
+    tree_settings.change_language = function (lang) {
+      config.lang = lang;
+    };
 
-  controller.set_language('es', true);
+    controller.set_language('es', true);
 
-  t.equal(config.OZstrings['Search results'], 'Resultados', 'set_language refreshes localized strings from window payload');
-
-  tree_settings.change_language = prevChangeLanguage;
-  config.lang = prevLang;
-  config.OZstrings = prevStrings;
-  global.window = prevWindow;
-  t.end();
+    t.equal(config.OZstrings['Search results'], 'Resultados', 'set_language refreshes localized strings from window payload');
+  } finally {
+    tree_settings.change_language = prevChangeLanguage;
+    config.lang = prevLang;
+    config.OZstrings = prevStrings;
+    global.window = prevWindow;
+    t.end();
+  }
 });
 
 test.onFinish(function() {

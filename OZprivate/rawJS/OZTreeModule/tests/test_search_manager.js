@@ -59,60 +59,63 @@ test('search_manager uses configured OZstrings in sponsor prefix detection', fun
         "Sponsored": "Sponsored",
         "Sponsor": "Sponsor",
     };
-
-    search_manager._urls_configured = true;
-    search_manager.last_search = null;
-
     const prevSearchForSponsor = search_manager.searchForSponsor;
-    const calls = [];
-    search_manager.searchForSponsor = function (query, callback, type) {
-        calls.push({ query, type });
-        if (callback) callback([]);
-    };
+    try {
+        search_manager._urls_configured = true;
+        search_manager.last_search = null;
 
-    search_manager.full_search('Sponsored by Ada Lovelace', function () {}, 0);
+        const calls = [];
+        search_manager.searchForSponsor = function (query, callback, type) {
+            calls.push({ query, type });
+            if (callback) callback([]);
+        };
 
-    t.equal(calls.length, 1, 'Routes sponsored searches through searchForSponsor');
-    t.equal(calls[0].type, 'by', 'Uses localized "Sponsored by" prefix to pick sponsor type');
-    t.equal(calls[0].query, ' Ada Lovelace', 'Strips the configured prefix before sponsor search');
+        search_manager.full_search('Sponsored by Ada Lovelace', function () {}, 0);
 
-    if (search_manager.search_timer) {
-        clearTimeout(search_manager.search_timer);
-        search_manager.search_timer = null;
+        t.equal(calls.length, 1, 'Routes sponsored searches through searchForSponsor');
+        t.equal(calls[0].type, 'by', 'Uses localized "Sponsored by" prefix to pick sponsor type');
+        t.equal(calls[0].query, ' Ada Lovelace', 'Strips the configured prefix before sponsor search');
+    } finally {
+        if (search_manager.search_timer) {
+            clearTimeout(search_manager.search_timer);
+            search_manager.search_timer = null;
+        }
+        search_manager.searchForSponsor = prevSearchForSponsor;
+        search_manager._urls_configured = prevUrlsConfigured;
+        search_manager.last_search = prevLastSearch;
+        search_manager.search_timer = prevSearchTimer;
+        config.OZstrings = prevStrings;
+        t.end();
     }
-    search_manager.searchForSponsor = prevSearchForSponsor;
-    search_manager._urls_configured = prevUrlsConfigured;
-    search_manager.last_search = prevLastSearch;
-    search_manager.search_timer = prevSearchTimer;
-    config.OZstrings = prevStrings;
-    t.end();
 });
 
 test('search_manager compile_searchbox_data uses localized "Also called:" label', function (t) {
     const prevStrings = config.OZstrings;
-    config.OZstrings = {
-        "Also called:": "Also called:",
-    };
+    try {
+        config.OZstrings = {
+            "Also called:": "Also called:",
+        };
 
-    const cols = {
-        "vernacular": 0,
-        "name": 1,
-        "ott": 2,
-        "extra_vernaculars": 3,
-        "id": 4,
-    };
+        const cols = {
+            "vernacular": 0,
+            "name": 1,
+            "ott": 2,
+            "extra_vernaculars": 3,
+            "id": 4,
+        };
 
-    const result = search_manager.compile_searchbox_data('wolf', 'en', [
-        null,
-        'Canis lupus',
-        9612,
-        ['wolf'],
-        42,
-    ], cols, false);
+        const result = search_manager.compile_searchbox_data('wolf', 'en', [
+            null,
+            'Canis lupus',
+            9612,
+            ['wolf'],
+            42,
+        ], cols, false);
 
-    t.equal(result[4].info_type, 'Extra Vernacular', 'Produces extra vernacular metadata');
-    t.equal(result[4].text, 'Also called: wolf', 'Builds extra label from config.OZstrings');
-
-    config.OZstrings = prevStrings;
-    t.end();
+        t.equal(result[4].info_type, 'Extra Vernacular', 'Produces extra vernacular metadata');
+        t.equal(result[4].text, 'Also called: wolf', 'Builds extra label from config.OZstrings');
+    } finally {
+        config.OZstrings = prevStrings;
+        t.end();
+    }
 });

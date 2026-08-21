@@ -43,46 +43,48 @@ function makeFakeContext() {
 
 test('leaf draw uses localized no-common-name label from config.OZstrings', function (t) {
   const prevStrings = config.OZstrings;
-  config.OZstrings = {
-    'No common name': 'Localized no common name',
-    'No known name': 'Localized no known name',
-    sciname: 'Scientific name: ',
-  };
+  try {
+    config.OZstrings = {
+      'No common name': 'Localized no common name',
+      'No known name': 'Localized no known name',
+      sciname: 'Scientific name: ',
+    };
 
-  const context = makeFakeContext();
+    const context = makeFakeContext();
 
-  fullLeaf(
-    context,
-    100,
-    100,
-    120,
-    0,
-    1,
-    1,
-    null,
-    'SPONSORED',
-    '',
-    null,
-    'Canis lupus',
-    '',
-    '',
-    '',
-    'Helvetica',
-    1,
-    null,
-    false,
-    natural_theme.leaf,
-    {},
-    false,
-    1,
-    0,
-    0
-  );
+    fullLeaf(
+      context,
+      100,
+      100,
+      120,
+      0,
+      1,
+      1,
+      null,
+      'SPONSORED',
+      '',
+      null,
+      'Canis lupus',
+      '',
+      '',
+      '',
+      'Helvetica',
+      1,
+      null,
+      false,
+      natural_theme.leaf,
+      {},
+      false,
+      1,
+      0,
+      0
+    );
 
-  const rendered = context.drawnTexts.join(' | ');
-  t.ok(rendered.indexOf('Localized') > -1 && rendered.indexOf('common name') > -1,
-    'fallback label is read from localized OZstrings');
-
-  config.OZstrings = prevStrings;
-  t.end();
+    const rendered = context.drawnTexts.join(' | ');
+    t.ok(rendered.indexOf('Localized') > -1 && rendered.indexOf('common name') > -1,
+      'fallback label is read from localized OZstrings');
+  } finally {
+    config.OZstrings = prevStrings;
+    t.end();
+  }
 });

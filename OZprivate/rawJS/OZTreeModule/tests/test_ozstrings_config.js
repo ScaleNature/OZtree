@@ -11,11 +11,16 @@ test('global config exposes OZstrings slot with null default', function (t) {
 });
 
 test('config.OZstrings can be seeded directly from the host payload', function (t) {
+  const prevStrings = config.OZstrings;
   const hostStrings = { foo: 'bar' };
 
-  config.OZstrings = hostStrings;
+  try {
+    config.OZstrings = hostStrings;
 
-  t.ok(config.OZstrings, 'config.OZstrings exists');
-  t.equal(config.OZstrings.foo, 'bar', 'config.OZstrings is seeded from the host payload');
-  t.end();
+    t.ok(config.OZstrings, 'config.OZstrings exists');
+    t.equal(config.OZstrings.foo, 'bar', 'config.OZstrings is seeded from the host payload');
+  } finally {
+    config.OZstrings = prevStrings;
+    t.end();
+  }
 });
