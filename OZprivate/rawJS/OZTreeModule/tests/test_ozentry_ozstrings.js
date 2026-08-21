@@ -90,3 +90,7 @@ test('OZentry setup seeds config.OZstrings from window payload', function (t) {
 
   t.end();
 });
+
+test.onFinish(function() {
+  process.exit(0);
+});

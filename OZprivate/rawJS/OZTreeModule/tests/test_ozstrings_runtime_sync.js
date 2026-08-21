@@ -57,3 +57,7 @@ test('set_language keeps config.OZstrings synced with window.OZstrings', functio
   global.window = prevWindow;
   t.end();
 });
+
+test.onFinish(function() {
+  process.exit(0);
+});

@@ -37,6 +37,8 @@ test('searchPopulate renders headings from config.OZstrings', function (t) {
 
     global.window = dom.window;
     global.document = dom.window.document;
+    const jqueryPath = require.resolve('../../../../static/js/jquery.js');
+    delete require.cache[jqueryPath];
     global.$ = require('../../../../static/js/jquery.js');
     global.window.jQuery = global.$;
     global.UIkit = {

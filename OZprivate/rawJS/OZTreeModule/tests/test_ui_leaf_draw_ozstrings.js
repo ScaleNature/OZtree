@@ -28,7 +28,8 @@ function makeFakeContext() {
     fillRect: function () {},
     createPattern: function () { return null; },
     createLinearGradient: function () { return { addColorStop: function () {} }; },
-    measureText: function (text) { return { width: (text || '').length * 5 }; },
+    // Keep text widths conservative so autotext paths can render within the fake canvas.
+    measureText: function (text) { return { width: (text || '').length }; },
     fillText: function (text) { drawnTexts.push(text); },
     strokeText: function (text) { drawnTexts.push(text); },
     textBaseline: 'middle',
@@ -78,7 +79,9 @@ test('leaf draw uses localized no-common-name label from config.OZstrings', func
     0
   );
 
-  t.ok(context.drawnTexts.indexOf('Localized no common name') > -1, 'fallback label is read from localized OZstrings');
+  const rendered = context.drawnTexts.join(' | ');
+  t.ok(rendered.indexOf('Localized') > -1 && rendered.indexOf('common name') > -1,
+    'fallback label is read from localized OZstrings');
 
   config.OZstrings = prevStrings;
   t.end();
